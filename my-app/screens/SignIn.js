@@ -21,16 +21,17 @@ export default function SignIn({ navigation }) {
   });
 
   React.useEffect(() => {
-    if (response?.type === "success") {
-      const { id_token, access_token } = response.params;
-      const credential = GoogleAuthProvider.credential(id_token, access_token);
-      signInWithCredential(auth, credential)
-        .then(() => {
-          // sucesso: onAuthStateChanged do AuthProvider cuidará da navegação
-        })
-        .catch((err) => Alert.alert("Erro Google SignIn", err.message));
-    }
-  }, [response]);
+  if (response?.type === "success") {
+    const { id_token } = response.params;
+    const credential = GoogleAuthProvider.credential(id_token);
+    signInWithCredential(auth, credential)
+      .then(() => {
+        // Login ok
+      })
+      .catch((err) => Alert.alert("Erro Google SignIn", err.message));
+  }
+}, [response]);
+
 
   const handleEmailSignUp = () => {
     if (!email || !password) return Alert.alert("Preencha e-mail e senha");

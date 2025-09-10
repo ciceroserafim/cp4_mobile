@@ -10,11 +10,12 @@ export const AuthProvider = ({ children }) => {
   const [initializing, setInitializing] = useState(true);
 
   useEffect(() => {
+    // Ouvindo mudanças no estado do Firebase Auth
     const unsubscribe = onAuthStateChanged(auth, (u) => {
       setUser(u);
-      if (initializing) setInitializing(false);
+      if (initializing) setInitializing(false); // só roda 1 vez
     });
-    return unsubscribe;
+    return unsubscribe; // remove listener ao desmontar
   }, []);
 
   const logout = async () => {

@@ -2,10 +2,11 @@
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import SignIn from "./screens/SignIn";
-import Home from "./screens/Home";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
 import { ActivityIndicator, View } from "react-native";
+import SignIn from "./screens/SignIn";
+import Home from "./screens/home";
+
 
 const Stack = createNativeStackNavigator();
 
@@ -15,7 +16,7 @@ function RootNavigator() {
   if (initializing) {
     return (
       <View style={{ flex: 1, justifyContent: "center", alignItems: "center" }}>
-        <ActivityIndicator />
+        <ActivityIndicator size="large" />
       </View>
     );
   }
