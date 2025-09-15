@@ -12,6 +12,7 @@ import {
 } from "firebase/auth";
 import { useTheme } from "../services/hooks/useTheme";
 import { useTranslation } from "react-i18next";
+import { useNavigation } from "@react-navigation/native"; 
 
 WebBrowser.maybeCompleteAuthSession();
 
@@ -20,6 +21,7 @@ export default function SignIn() {
   const [password, setPassword] = useState("");
   const { theme, toggleTheme } = useTheme();
   const { t, i18n } = useTranslation();
+  const navigation = useNavigation(); 
 
   const [request, response, promptAsync] = Google.useAuthRequest({
     expoClientId: "SEU_EXPO_CLIENT_ID.apps.googleusercontent.com",
@@ -57,6 +59,11 @@ export default function SignIn() {
 
   return (
     <View style={styles.container}>
+      {/* Botão para voltar para a Home */}
+      <View style={styles.backButtonContainer}>
+        <Button title="Voltar" onPress={() => navigation.goBack()} />
+      </View>
+      
       <Text style={styles.title}>{t("appTitle")}</Text>
 
       <TextInput
@@ -113,6 +120,12 @@ function getStyles(isDark) {
       padding: 20,
       justifyContent: "center",
       backgroundColor: isDark ? "#121212" : "#FFFFFF",
+    },
+    //  botão de voltar
+    backButtonContainer: {
+      position: 'absolute',
+      top: 50,
+      left: 20,
     },
     title: {
       fontSize: 24,

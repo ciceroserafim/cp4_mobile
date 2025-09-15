@@ -8,11 +8,13 @@ import { ThemeProvider } from "./services/hooks/useTheme";
 import { ActivityIndicator, View } from "react-native";
 import SignIn from "./screens/SignIn";
 import Home from "./screens/home";
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const Stack = createNativeStackNavigator();
+const queryClient = new QueryClient();
 
 function RootNavigator() {
-  const { user, initializing } = useAuth();
+  const { initializing } = useAuth(); // O 'user' não é mais necessário aqui
 
   if (initializing) {
     return (
@@ -24,11 +26,8 @@ function RootNavigator() {
 
   return (
     <Stack.Navigator>
-      {user ? (
-        <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
-      ) : (
-        <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
-      )}
+      <Stack.Screen name="Home" component={Home} options={{ headerShown: false }} />
+      <Stack.Screen name="SignIn" component={SignIn} options={{ headerShown: false }} />
     </Stack.Navigator>
   );
 }
@@ -37,9 +36,11 @@ export default function App() {
   return (
     <AuthProvider>
       <ThemeProvider>
-        <NavigationContainer>
-          <RootNavigator />
-        </NavigationContainer>
+        <QueryClientProvider client={queryClient}>
+          <NavigationContainer>
+            <RootNavigator />
+          </NavigationContainer>
+        </QueryClientProvider>
       </ThemeProvider>
     </AuthProvider>
   );
