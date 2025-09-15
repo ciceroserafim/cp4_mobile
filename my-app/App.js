@@ -1,12 +1,13 @@
 // App.js
+import "../my-app/i18";
 import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { AuthProvider, useAuth } from "./contexts/AuthContext";
+import { ThemeProvider } from "./services/hooks/useTheme";
 import { ActivityIndicator, View } from "react-native";
 import SignIn from "./screens/SignIn";
 import Home from "./screens/home";
-
 
 const Stack = createNativeStackNavigator();
 
@@ -35,9 +36,11 @@ function RootNavigator() {
 export default function App() {
   return (
     <AuthProvider>
-      <NavigationContainer>
-        <RootNavigator />
-      </NavigationContainer>
+      <ThemeProvider>
+        <NavigationContainer>
+          <RootNavigator />
+        </NavigationContainer>
+      </ThemeProvider>
     </AuthProvider>
   );
 }
